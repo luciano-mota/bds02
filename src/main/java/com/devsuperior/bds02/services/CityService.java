@@ -2,8 +2,12 @@ package com.devsuperior.bds02.services;
 
 import com.devsuperior.bds02.dto.CityDTO;
 import com.devsuperior.bds02.entities.City;
+import com.devsuperior.bds02.exceptions.IsDataBaseExcetion;
+import com.devsuperior.bds02.exceptions.IsNotFoundException;
 import com.devsuperior.bds02.repositories.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +34,15 @@ public class CityService {
 
         city = repository.save(city);
         return new CityDTO(city);
+    }
+
+    public void deleteCity(Long id) {
+        try {
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new IsNotFoundException("ID not found: " + id);
+        } catch (DataIntegrityViolationException e) {
+            throw new IsDataBaseExcetion("Integrity violation");
+        }
     }
 }
