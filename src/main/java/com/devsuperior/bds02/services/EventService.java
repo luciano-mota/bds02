@@ -9,9 +9,6 @@ import com.devsuperior.bds02.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.Optional;
-
 @Service
 public class EventService {
 
@@ -26,9 +23,11 @@ public class EventService {
     }
 
     private Event buildEvent(EventDTO eventDTO, Long id) {
-        Event event = repository.findById(id).orElseThrow(() -> new IsNotFoundException("ID not found"));
+        Event event = repository.findById(id)
+                .orElseThrow(() -> new IsNotFoundException("ID not found"));
 
-        City city = cityRepository.findById(eventDTO.getCityId()).orElseThrow(() -> new IsNotFoundException("ID not found"));
+        City city = cityRepository.findById(eventDTO.getCityId())
+                .orElseThrow(() -> new IsNotFoundException("ID not found"));
 
         event.setName(eventDTO.getName());
         event.setDate(eventDTO.getDate());

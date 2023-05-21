@@ -25,7 +25,8 @@ public class CityService {
         List<City> cityList = repository.findAll(Sort.by(Sort.Order.by("name")));
 
         return cityList.stream()
-                .map(CityDTO::new).collect(toList());
+                .map(CityDTO::new)
+                .collect(toList());
     }
 
     public CityDTO insert(CityDTO dto) {
